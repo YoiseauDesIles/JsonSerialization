@@ -3,18 +3,20 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/filereadstream.h"
-#include "Includes/JSONBase.h"
 #include "Includes/Product.h"
+#include "Includes/Product2.h"
 
 int jsonReaderFromFile();
 void testDeserialization();
 void testSerialization();
+void testSerializationFromObject();
 
 int main()
 {
-    testDeserialization();
+    // testDeserialization();
     testSerialization();    
-    // std::cout << jsonReaderFromFile() << "\n";
+    testSerializationFromObject();
+    // std::cout << "\n" << jsonReaderFromFile() << "\n";
 }
 
 
@@ -38,7 +40,7 @@ void jsonParserWithBuffer()
 int jsonReaderFromFile()
 {
     //open the file
-    std::FILE * file = fopen("details.json", "rb");
+    std::FILE * file = fopen("../ressources/details.json", "rb");
 
     if (!file) {
         std::cerr << "Error: unable to open file"
@@ -106,18 +108,28 @@ int jsonReaderFromFile()
 
 void testDeserialization(){
     //Load Json from file
-    Product products;
-    products.DeserializeFromFile("ressources/details.json");
+    JSONModels::Product product;
+    product.DeserializeFromFile("../ressources/details.json");
 
-    std::cout << "Name : " << products.Name() << ", Sales : " << products.Sales(); 
-
+    std::cout << "Name : " << product.Name() << ",\r\n Sales : " << product.Sales() << "\n\n";    
 }
 
 
 void testSerialization()
 {
-    Product product;
+    JSONModels::Product product;
     product.DeserializeFromFile("../ressources/details.json");            
     product.Sales(product.Sales() + 100.0f); // increase the sales by 100
     product.SerializeToFile("../ressources/DataSampleNew.json");
+}
+
+
+void testSerializationFromObject()
+{
+    JSONModels::Product2 product;
+    product.Color("couleur sauce");
+    product.Sauce(18);
+
+    product.SerializeToFile("../ressources/sauce.json");
+
 }

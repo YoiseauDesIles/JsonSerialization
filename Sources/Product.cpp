@@ -1,32 +1,44 @@
+#include <string>
 #include "../Includes/Product.h"
 
-bool Product::Deserialize(const rapidjson::Value &obj)
+namespace JSONModels
 {
-    Id(obj["id"].GetInt());
-    Name(obj["name"].GetString());
-    Category(obj["category"].GetString());
-    Sales(obj["sales"].GetFloat());
+	Product::Product() : _sales(0.0f), _id(0)
+	{}
 
-    return true;
-}
+	Product::~Product()
+	{}
+	
+	
+	
+	bool Product::Deserialize(const rapidjson::Value & obj)
+	{
+		Id(obj["id"].GetInt());
+		Name(obj["name"].GetString());
+		Category(obj["category"].GetString());
+		Sales(obj["sales"].GetFloat());
 
-bool Product::Serialize(rapidjson::Writer<rapidjson::StringBuffer> *writer) const
-{
-    writer->StartObject();
+		return true;
+	}
 
-    writer->String("id"); // create Id property
-    writer->Int(_id);     // write the Id value from the object instance
+	bool Product::Serialize(rapidjson::Writer<rapidjson::StringBuffer> * writer) const
+	{
+		writer->StartObject();
 
-    writer->String("name");
-    writer->String(_name.c_str());
+			writer->String("id");
+			writer->Int(_id);
 
-    writer->String("category");
-    writer->String(_category.c_str());
+			writer->String("name");
+			writer->String(_name.c_str());
 
-    writer->String("sales");
-    writer->Double(_sales);
+			writer->String("category");
+			writer->String(_category.c_str());
 
-  writer->EndObject();
+			writer->String("sales");
+			writer->Double(_sales);
 
-  return true;
+		writer->EndObject();
+
+		return true;
+	}	
 }
