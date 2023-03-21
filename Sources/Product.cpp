@@ -28,6 +28,7 @@ namespace JSONModels
 			writer->String("id");
 			writer->Int(_id);
 
+
 			writer->String("name");
 			writer->String(_name.c_str());
 

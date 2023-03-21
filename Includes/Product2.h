@@ -2,15 +2,17 @@
 
 #include "JSONBase.h"
 #include <list>
+#include <map>
+#include <algorithm>
 
 namespace JSONModels
 {
-	class Product2 : public JSONBase
+	class ProductMap : public JSONBase
 	{
 
 	public:
-		Product2();		
-		virtual ~Product2();			
+		ProductMap();		
+		virtual ~ProductMap();			
 
 		virtual bool Deserialize(const rapidjson::Value& obj);
 		virtual bool Serialize(rapidjson::Writer<rapidjson::StringBuffer>* writer) const;
@@ -19,12 +21,15 @@ namespace JSONModels
 		const std::string& Color() const { return _color; }
 		void Color(const std::string& color) { _color = color; }
 
-		int Sauce() const { return _sauce; }
-		void Sauce(int sauce) { _sauce = sauce; }		
+		// const std::list<std::string> & Graph() const { return _graph; }
+		// void Graph(const std::list<std::string>& graph) const {
+
+		// 	    std::copy(graph.begin(), graph.end(), std::back_inserter(_graph));
+			
+		//  }
 	
     private:
 		std::string _color;
-		int _sauce;
-        
+        std::list<std::string> _graph;
 	};	
 }

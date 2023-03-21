@@ -6,16 +6,25 @@
 #include "Includes/Product.h"
 #include "Includes/Product2.h"
 
+#include <fstream>
+#include <string>
+#include <map>
+#include <list>
+
+
 int jsonReaderFromFile();
 void testDeserialization();
 void testSerialization();
 void testSerializationFromObject();
+void deserializationMap();
 
 int main()
 {
+    std::cout << "test";
+    deserializationMap();
     // testDeserialization();
-    testSerialization();    
-    testSerializationFromObject();
+    // testSerialization();    
+    // testSerializationFromObject();
     // std::cout << "\n" << jsonReaderFromFile() << "\n";
 }
 
@@ -126,10 +135,51 @@ void testSerialization()
 
 void testSerializationFromObject()
 {
-    JSONModels::Product2 product;
-    product.Color("couleur sauce");
-    product.Sauce(18);
+    // JSONModels::Product2 product;
+    // product.Color("couleur sauce");
+    // product.Sauce(18);
 
-    product.SerializeToFile("../ressources/sauce.json");
+    // product.SerializeToFile("../ressources/sauce.json");
+
+}
+
+
+void deserializationMap(){
+        std::ifstream file("../ressources/data.json");
+    std::string json_str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
+    using namespace rapidjson;
+
+    Document doc;
+    doc.Parse(json_str.c_str());
+
+    std::map<std::string, std::list<std::string>> my_map;
+
+    if(doc.HasMember("my_map")) {
+        const Value& map_value = doc["my_map"];
+
+        if(map_value.IsObject()) {
+            for (Value::ConstMemberIterator itr = map_value.MemberBegin(); itr != map_value.MemberEnd(); ++itr) {
+                if(itr->value.IsArray()) {
+                    std::list<std::string> value_list;
+                    for (SizeType i = 0; i < itr->value.Size(); i++) {
+                        if(itr->value[i].IsString()) {
+                            value_list.push_back(itr->value[i].GetString());
+                        }
+                    }
+                    my_map[itr->name.GetString()] = value_list;
+                }
+            }
+        }
+    }
+
+// Affichage de la map pour vérification
+for (auto const& pair : my_map) {
+    std::cout << pair.first << " : ";
+    for(auto const& value : pair.second) {
+        std::cout << value << ", ";
+    }
+    std::cout << std::endl;
+}
 
 }

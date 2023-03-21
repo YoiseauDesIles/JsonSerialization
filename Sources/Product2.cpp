@@ -3,33 +3,26 @@
 
 namespace JSONModels
 {
-	Product2::Product2() : _sauce(0)
+	ProductMap::ProductMap() 
 	{}
 
-	Product2::~Product2()
+	ProductMap::~ProductMap()
 	{}
 	
 	
 	
-	bool Product2::Deserialize(const rapidjson::Value & obj)
+	bool ProductMap::Deserialize(const rapidjson::Value & obj)
 	{
-		Sauce(obj["sauce"].GetInt());
+		// Graph(obj["graph"].GetInt());
 		Color(obj["color"].GetString());
 
 		return true;
 	}
 
-	bool Product2::Serialize(rapidjson::Writer<rapidjson::StringBuffer> * writer) const
+	bool ProductMap::Serialize(rapidjson::Writer<rapidjson::StringBuffer> * writer) const
 	{
-		writer->StartObject();
+		writer->StartArray();
 
-			writer->String("sauce");
-			writer->Int(_sauce);
-
-			writer->String("color");
-			writer->String(_color.c_str());
-
-		writer->EndObject();
 
 		return true;
 	}	

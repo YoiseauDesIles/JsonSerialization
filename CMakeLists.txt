@@ -16,6 +16,5 @@ Includes/Product2.h
 
 add_executable(JsonSerialization ${SRCS} ${HEADERS})
 
-
-
+include_directories(rapidjson/include)
 
