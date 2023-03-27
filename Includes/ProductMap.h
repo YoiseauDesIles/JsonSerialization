@@ -35,6 +35,9 @@ namespace JSONModels
         void Colour(std::string colour) { this->_colour = colour; };
         std::string Colour() const { return _colour; }
 
+        void Graph(const rapidjson::Value& map_value);
+        void Graph(const std::map<std::string, std::list<std::string>> &graph) { _graph = graph; }
+
         void printGraph() const;
 
     private:
